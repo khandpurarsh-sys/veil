@@ -5,8 +5,9 @@ const un64=s=>sodium.from_base64(s,sodium.base64_variants.URLSAFE_NO_PADDING);
 export function identity(){const box=sodium.crypto_box_keypair(),sign=sodium.crypto_sign_keypair();return {boxPublic:b64(box.publicKey),boxSecret:b64(box.privateKey),signPublic:b64(sign.publicKey),signSecret:b64(sign.privateKey)};}
 export function token(){return b64(sodium.randombytes_buf(32));}
 export function digest(s){return b64(sodium.crypto_generichash(32,s));}
-export function sign(value,secret){return b64(sodium.crypto_sign_detached(JSON.stringify(value),un64(secret)));}
-export function verify(value,sig,pub){try{return sodium.crypto_sign_verify_detached(un64(sig),JSON.stringify(value),un64(pub));}catch{return false;}}
+export function canonical(value){if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}';return JSON.stringify(value);}
+export function sign(value,secret){return b64(sodium.crypto_sign_detached(canonical(value),un64(secret)));}
+export function verify(value,sig,pub){try{return sodium.crypto_sign_verify_detached(un64(sig),canonical(value),un64(pub));}catch{return false;}}
 export function rosterPayload(epoch,members){return {v:1,epoch,members:members.map(m=>({id:m.id,alias:m.alias,boxPublic:m.boxPublic,signPublic:m.signPublic})).sort((a,b)=>a.id.localeCompare(b.id))};}
 export function certify(epoch,members,owner){const payload=rosterPayload(epoch,members);return {payload,signature:sign(payload,owner.signSecret)};}
 export function validateRoster(roster,ownerPub,minEpoch=0){if(roster?.payload?.v!==1||!Number.isSafeInteger(roster.payload.epoch)||roster.payload.epoch<minEpoch||!Array.isArray(roster.payload.members)||roster.payload.members.length>20||!verify(roster.payload,roster.signature,ownerPub))throw Error('Invalid or stale owner-signed membership list');return roster.payload;}
