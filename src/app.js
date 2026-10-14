@@ -1,3 +1,4 @@
+const DIRECT_LABEL='Chats';
 import {Veil} from './backend.js';
 import * as crypt from './crypto.js';
 const $=id=>document.getElementById(id);const text=(tag,value)=>{const e=document.createElement(tag);e.textContent=value;return e;};let veil,room='inner',busy=false;
@@ -18,10 +19,12 @@ $('refresh').onclick=()=>action(connected);
 $('signout').onclick=()=>action(async()=>{if(!confirm('Signing out makes an anonymous device lose its session. A new invitation will be needed. Device keys are not deleted automatically. Continue?'))return;await veil.signout();location.reload();});
 document.querySelectorAll('[data-live-room]').forEach(b=>b.onclick=()=>action(async()=>{room=b.dataset.liveRoom;$('roomTitle').textContent=b.textContent.replace('↗','').trim();lastList='circlesView';view('conversation');document.querySelectorAll('[data-live-room]').forEach(x=>x.classList.toggle('active',x===b));veil.watch(room,refresh);await refresh();}));
 (async()=>{try{const config=await (await fetch('./config.json',{cache:'no-store'})).json();if(!config.url||!config.publishableKey){status('Development preview - backend not configured. Shared chat and invitations are disabled. The original demo is unchanged.');$('joinGate').hidden=true;return;}veil=new Veil(config);await crypt.ready();if(await veil.start())await connected();else status('Open an owner invitation, or sign in as the provisioned owner.');}catch(e){status(e.message);}})();
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 function view(id){$('home').hidden=id!=='home';for(const name of ['chatsView','circlesView','conversation','controls'])$(name).hidden=name!==id;}
 let lastList='circlesView';
 $('openChats').onclick=()=>action(async()=>{if(!veil?.me){status('Sign in or accept an invitation first.');$('joinGate').scrollIntoView();return;}await veil.loadRoster();$('directList').replaceChildren();for(const m of veil.roster.filter(m=>m.id!==veil.me.id)){const b=text('button',m.alias+' ↗');b.onclick=()=>action(async()=>{if(!veil.config.directEnabled)throw Error('Private one-to-one chat is not enabled yet.');room='dm:'+ [veil.me.id,m.id].sort().join(':');$('roomTitle').textContent=m.alias;lastList='chatsView';view('conversation');veil.watch(room,refresh);await refresh();});$('directList').append(b);}if(!$('directList').children.length)$('directList').append(text('p','No other approved people yet.'));view('chatsView');});
 $('openCircles').onclick=()=>{if(!veil?.me){status('Sign in or accept an invitation first.');$('joinGate').scrollIntoView();return;}lastList='circlesView';view('circlesView');};
 $('homeBrand').onclick=()=>view('home');document.querySelectorAll('.back').forEach(b=>b.onclick=()=>view('home'));$('backToList').onclick=()=>view(lastList);$('settings').onclick=()=>view('controls');$('closeControls').onclick=()=>view('conversation');$('copyPublic').onclick=()=>action(async()=>{await navigator.clipboard.writeText($('ownerPublic').value);status('Public signing key copied. Private keys never leave this device.');});
 function clock(){$('clock').textContent=new Intl.DateTimeFormat(undefined,{hour:'2-digit',minute:'2-digit'}).format(new Date());}clock();setInterval(clock,60000);
+
+$('directHeading').textContent=DIRECT_LABEL;$('directHome').textContent=DIRECT_LABEL;
