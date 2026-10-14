@@ -32,4 +32,6 @@ function clock(){$('clock').textContent=new Intl.DateTimeFormat(undefined,{hour:
 
 $('directHeading').textContent=DIRECT_LABEL;$('directHome').textContent=DIRECT_LABEL;
 
-function accent(name){document.getElementById('manifest').href='manifest-'+name+'.webmanifest';document.documentElement.style.setProperty('--accent',name==='gold'?'#d7b88d':'#eeeeee');localStorage.setItem('veil-accent',name);}document.querySelectorAll('[data-accent]').forEach(b=>b.onclick=()=>accent(b.dataset.accent));accent(localStorage.getItem('veil-accent')==='gold'?'gold':'silver');
+function accent(name){document.getElementById('manifest').href='manifest-'+name+'.webmanifest';document.documentElement.style.setProperty('--accent',name==='gold'?'#d7b88d':'#eeeeee');localStorage.setItem('veil-accent',name);}document.querySelectorAll('[data-accent]').forEach(b=>b.onclick=()=>accent(b.dataset.accent));accent('silver');
+
+$('circleSettings').onclick=()=>{ownerPanel().catch(e=>status(e.message));view('controls');};
