@@ -10,11 +10,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Extract tested application snapshot
         run: |
+          cp app/config.json /tmp/veil-live-public-config.json
           mkdir -p /tmp/veil-source
           tar -xzf 5-veil-web-final.tar.gz -C /tmp/veil-source
           for item in src tests supabase app package.json package-lock.json build.mjs README.md .gitignore; do
             cp -R "/tmp/veil-source/$item" .
           done
+          cp /tmp/veil-live-public-config.json app/config.json
           cp /tmp/veil-source/root-index.html index.html
           cp /tmp/veil-source/manifest*.webmanifest /tmp/veil-source/icon-*.png /tmp/veil-source/sw.js .
       - uses: actions/setup-node@v4
