@@ -1,0 +1,29 @@
+name: Prepare development source
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract reviewed development snapshot without touching prototype
+        run: |
+          mkdir -p /tmp/veil-source
+          tar -xzf 1-veil-development-source.tar.gz -C /tmp/veil-source
+          for item in src tests supabase app package.json package-lock.json build.mjs README.md .gitignore; do
+            cp -R "/tmp/veil-source/$item" .
+          done
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci && npm test && npm run build
+      - name: Save tested source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src tests supabase app package.json package-lock.json build.mjs README.md .gitignore
+          git commit -m 'Add disabled encrypted development app and passing tests'
+          git push
