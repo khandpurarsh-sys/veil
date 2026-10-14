@@ -12,12 +12,13 @@ jobs:
         run: |
           cp app/config.json /tmp/veil-live-public-config.json
           mkdir -p /tmp/veil-source
-          tar -xzf 1-veil-fullscreen.tar.gz -C /tmp/veil-source
+          tar -xzf 1-veil-gesture-fullscreen.tar.gz -C /tmp/veil-source
           for item in src tests supabase app package.json package-lock.json build.mjs README.md .gitignore; do
             cp -R "/tmp/veil-source/$item" .
           done
           cp /tmp/veil-live-public-config.json app/config.json
           cp /tmp/veil-source/root-index.html index.html
+          cp /tmp/veil-source/fullscreen.js .
           cp /tmp/veil-source/manifest*.webmanifest /tmp/veil-source/icon-*.png /tmp/veil-source/sw.js .
       - uses: actions/setup-node@v4
         with:
@@ -28,6 +29,6 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add src tests supabase app package.json package-lock.json build.mjs README.md .gitignore index.html manifest*.webmanifest icon-*.png sw.js
+          git add src tests supabase app package.json package-lock.json build.mjs README.md .gitignore index.html fullscreen.js manifest*.webmanifest icon-*.png sw.js
           git commit -m 'Add contacts, group membership and installable Simple PWA'
           git push
