@@ -11,7 +11,7 @@ jobs:
       - name: Extract reviewed development snapshot without touching prototype
         run: |
           mkdir -p /tmp/veil-source
-          tar -xzf 1-1-veil-development-source.tar.gz -C /tmp/veil-source
+          tar -xzf 3-veil-alpha-source.tar.gz -C /tmp/veil-source
           for item in src tests supabase app package.json package-lock.json build.mjs README.md .gitignore; do
             cp -R "/tmp/veil-source/$item" .
           done
