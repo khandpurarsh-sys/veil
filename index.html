@@ -45,4 +45,27 @@ function theme(id,quiet){const t=THEMES.find(x=>x[0]===id)||THEMES[0];const go=(
  window.simpleFont=function(font){document.documentElement.style.setProperty('--minimal-font',({sans:'system-ui,sans-serif',serif:'Georgia,serif',mono:'ui-monospace,monospace'})[font]||'system-ui,sans-serif');try{localStorage.setItem('veil-simple-font',font)}catch{}};
  try{interfaceMode(localStorage.getItem('veil-interface')||'glass',true);simpleFont(localStorage.getItem('veil-simple-font')||'serif')}catch{interfaceMode('glass',true)}
 })();
-</script></body></html>
+</script><script>
+const DIRECT_LABEL='Chats';
+(function(){
+interfaceMode('minimal',true);theme('ink',true);
+document.querySelector('#media').remove();
+document.querySelector('#themes')?.closest('.glass.panel')?.querySelectorAll('.themes,.themehint,.layout-picker,.font-picker').forEach(e=>e.remove());
+document.querySelectorAll('.layout-picker').forEach(e=>e.remove());
+const nav=document.querySelector('.nav');nav.remove();
+const h=document.createElement('section');h.id='veilHome';h.className='view';h.innerHTML='<div class="minimal-clock"><time id="homeClock"></time><span>YOUR WORLD. BEHIND THE VEIL.</span></div><div class="homeChoices"><button id="directHome"></button><button id="circlesHome">Circles <small>A little closer, together.</small><span>↗</span></button></div>';
+document.querySelector('main').prepend(h);document.getElementById('directHome').innerHTML=DIRECT_LABEL+'<small>One voice, one connection.</small><span>↗</span>';
+const originalTab=window.tab;window.tab=function(id){h.classList.toggle('hidden',id!=='veilHome');if(id==='veilHome'){document.querySelectorAll('main>.view').forEach(e=>e.classList.toggle('hidden',e!==h));document.body.classList.remove('in-chat');return;}originalTab(id);};
+document.querySelector('.brand').onclick=()=>tab('veilHome');
+document.getElementById('circlesHome').onclick=()=>{renderRooms();tab('circle')};
+document.getElementById('directHome').onclick=()=>{tab('circle');document.body.classList.remove('in-chat');document.getElementById('rooms').innerHTML='<div class="section-label">'+DIRECT_LABEL+' · local demo</div>'+['Lunar','Echo','Ember'].map((name,i)=>'<button class="room" onclick="setRoom(\''+rooms[i].id+'\')"><h3>'+name+'</h3></button>').join('')+'<p style="font-size:11px">Fictional aliases. One-to-one server chat is in development.</p>';};
+const clock=()=>document.getElementById('homeClock').textContent=new Intl.DateTimeFormat(undefined,{hour:'2-digit',minute:'2-digit'}).format(new Date());clock();setInterval(clock,60000);
+const back=document.createElement('button');back.className='homeBack';back.textContent='← Home';back.onclick=()=>tab('veilHome');document.querySelector('#circle').prepend(back);
+// Attachments only, no gallery/category path.
+window.gallery=function(){};window.chooseFile=function(){chatFile=true;document.getElementById('file').click()};
+const control=document.createElement('button');control.className='controlLink';control.textContent='Your circle settings';control.onclick=()=>tab('control');document.querySelector('#circle').append(control);
+const controlBack=document.createElement('button');controlBack.textContent='← Home';controlBack.onclick=()=>tab('veilHome');document.querySelector('#control').prepend(controlBack);
+document.querySelector('#control .glass.panel h2')?.remove();
+tab('veilHome');
+})();
+</script><style>:root{--bg:#000;--hi:#eee;--ac:220 220 220}.homeChoices{max-width:420px;margin:auto}.homeChoices button{display:block;position:relative;width:100%;text-align:left;padding:20px 0;font-size:25px;border:0;background:none}.homeChoices small{display:block;font-size:11px;color:#888;margin-top:5px}.homeChoices span{position:absolute;right:0;top:30px;font-size:17px}.homeBack,.controlLink{border:0;background:none;font-size:11px;color:#888}.minimal .demo{margin-top:40px}.minimal-clock:not(:first-child){display:none}</style></body></html>
