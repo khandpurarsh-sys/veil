@@ -1,6 +1,6 @@
 # Veil
 
-The root is the original device-local themed prototype. It is not shared messaging.
+The root is the Simple-only device-local prototype. It is not shared messaging.
 
 `app/` is a separate encrypted development build. It is deliberately disabled until
 configured with a dedicated Supabase project, a provisioned owner auth identity,
@@ -34,7 +34,6 @@ vendor's 50 MB stored-file cap. Aggregate reserved storage stops at 800 MB. Cont
 expires after 30 days by access policy. Physical media cleanup is not deployed yet.
 A free project can pause for inactivity. No billing upgrade is authorized.
 
-Not yet delivered: live two-device test, complete original feature/design integration,
-physical media deletion job, abuse challenge, owner recovery, independent security
-review and Android APK. PWA manifest/service worker are a development skeleton;
-no offline message delivery or tested Android installability is claimed.
+Verified: disposable live two-device text, image, direct and group exchange; Realtime; contact isolation; group membership; removal denial; ten local regression tests. Root and /app PWA manifests, icons and active service workers were checked live with Chrome. No physical Android installation has been performed.
+
+Not yet delivered: real owner-device key pinning/activation, physical media deletion job, abuse challenge, owner recovery, independent security review and Android APK. No offline message delivery or background notification behavior is claimed. Video has not yet had a real end-to-end playback test.
