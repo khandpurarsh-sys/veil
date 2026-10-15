@@ -4,7 +4,7 @@ import * as crypt from './crypto.js';
 export class Veil{
  constructor(config){this.config=config;this.db=createClient(config.url,config.publishableKey);this.me=null;this.roster=null;this.epoch=0;this.urls=[];}
  async checked(p){const {data,error}=await p;if(error)throw error;return data;}
- async start(){await crypt.ready();const {data}=await this.db.auth.getSession();if(!data.session)return false;this.user=data.session.user;this.owner=await this.checked(this.db.rpc('veil_owner'));const stored=localStorage.getItem('veil-device-v1');if(stored)this.me=JSON.parse(stored);if(this.me&&this.me.id!==this.user.id)throw Error('This login does not match the saved device keys. Do not overwrite them.');return true;}
+ async start(){const {data}=await this.db.auth.getSession();if(!data.session)return false;await crypt.ready();this.user=data.session.user;this.owner=await this.checked(this.db.rpc('veil_owner'));const stored=localStorage.getItem('veil-device-v1');if(stored)this.me=JSON.parse(stored);if(this.me&&this.me.id!==this.user.id)throw Error('This login does not match the saved device keys. Do not overwrite them.');return true;}
  async memberJoin(invite,alias){await crypt.ready();if(!this.user){const data=await this.checked(this.db.auth.signInAnonymously());this.user=data.user;}
  if(!this.me){this.me={id:this.user.id,alias,...crypt.identity()};localStorage.setItem('veil-device-v1',JSON.stringify(this.me));}
  await this.checked(this.db.rpc('veil_accept_invite',{p_hash:crypt.digest(invite),p_alias:alias,p_box:this.me.boxPublic,p_sign:this.me.signPublic}));}

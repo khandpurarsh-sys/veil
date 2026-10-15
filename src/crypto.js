@@ -1,5 +1,5 @@
-import sodium from 'libsodium-wrappers';
-export async function ready(){await sodium.ready;}
+let sodium,loading;
+export async function ready(){if(!loading)loading=import('libsodium-wrappers').then(async m=>{sodium=m.default;await sodium.ready;});await loading;}
 const b64=b=>sodium.to_base64(b,sodium.base64_variants.URLSAFE_NO_PADDING);
 const un64=s=>sodium.from_base64(s,sodium.base64_variants.URLSAFE_NO_PADDING);
 export function identity(){const box=sodium.crypto_box_keypair(),sign=sodium.crypto_sign_keypair();return {boxPublic:b64(box.publicKey),boxSecret:b64(box.privateKey),signPublic:b64(sign.publicKey),signSecret:b64(sign.privateKey)};}

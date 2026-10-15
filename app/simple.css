@@ -8,3 +8,7 @@ button:active,summary:active{opacity:.65;transform:scale(.985)}
 @media(prefers-reduced-motion:no-preference){button{transition:transform 90ms ease-out,opacity 90ms ease-out}section{animation:arrive 140ms ease-out}}
 @media(prefers-reduced-motion:reduce){button,section{transition:none;animation:none}}
 .messages{overscroll-behavior:contain}.media-object{content-visibility:auto}
+
+/* Stable screens, native scrolling, no repeated section fade or movement. */
+section{animation:none!important}button{transition:opacity 70ms linear!important}button:active,summary:active{transform:none;opacity:.6}
+header{gap:12px}.quiet{font-size:10px;line-height:1.3}.offline{color:#b99}.quick-actions,.screen-actions{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 8px}.quick-actions button,.screen-actions button,#createCircle{font:12px system-ui,sans-serif;border:1px solid #333;border-radius:8px;padding:11px 14px}.quick-actions{max-width:420px;margin:14px auto 0}.clock{padding:24px 0 28px}.home-choices button{border-bottom:1px solid #171717}.home-choices button:last-child{border-bottom:0}.chat{height:min(660px,calc(100svh - 215px))}.bubble{content-visibility:auto;contain-intrinsic-size:auto 80px}.messages{overflow-anchor:auto}

@@ -1,0 +1,3 @@
+Measurements on the signed-out Veil page served locally,390x844 viewport,80ms latency,4Mbps download,4x CPU slowdown. Three cold/warm pairs per build in Chromium. These do not measure authenticated chat latency or physical Android refresh rate.
+Median repeat-open load:1707ms before,182ms after. Signed-out ready:1801ms before,273ms after. Cold load:1834ms before,1813ms after (essentially unchanged). Cached public static resources account for the repeat-open improvement. Navigation/config/private data remain network-only. Main JS was not materially reduced.
+Media worker stress test:16MB encryption,4x CPU slowdown. Maximum animation-frame gap ranged467-850ms for main-thread runs and17ms with the worker. This is a synthetic result, not a120Hz guarantee.
