@@ -1,13 +1,12 @@
 (()=>{
- let inFlight=false,needsGesture=true;
- async function enter(){if(inFlight||document.hidden||document.fullscreenElement||matchMedia('(display-mode: fullscreen)').matches||!document.documentElement.requestFullscreen)return;inFlight=true;try{await document.documentElement.requestFullscreen({navigationUI:'hide'});needsGesture=false;}catch{needsGesture=true;}finally{inFlight=false;}}
- let touchStart;
- document.addEventListener('pointerdown',e=>{touchStart={x:e.clientX,y:e.clientY};},{passive:true});
- document.addEventListener('pointerup',e=>{if(e.target?.closest?.('#installVeil,input,textarea,select'))return;if(touchStart&&Math.hypot(e.clientX-touchStart.x,e.clientY-touchStart.y)>12)return;if(needsGesture)void enter();},{passive:true});
- document.addEventListener('keydown',e=>{if(e.target?.closest?.('input,textarea,select'))return;if(e.key==='Enter'&&needsGesture)void enter();});
- document.addEventListener('fullscreenchange',()=>{needsGesture=!document.fullscreenElement;});
- document.addEventListener('visibilitychange',()=>{if(!document.hidden){needsGesture=true;void enter();}});
- window.addEventListener('pageshow',()=>{needsGesture=true;void enter();});
+ let attempted=false,start;
+ document.addEventListener('pointerdown',e=>{start={x:e.clientX,y:e.clientY};},{passive:true});
+ document.addEventListener('pointerup',e=>{
+  if(attempted||e.target?.closest?.('#installVeil,input,textarea,select')||!start||Math.hypot(e.clientX-start.x,e.clientY-start.y)>12)return;
+  attempted=true;
+  if(document.fullscreenElement||matchMedia('(display-mode: fullscreen)').matches)return;
+  if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>{});
+ },{passive:true});
 })();
 (()=>{
  let deferred;
