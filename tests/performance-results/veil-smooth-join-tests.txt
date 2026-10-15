@@ -1,0 +1,140 @@
+
+> veil@1.0.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: Encrypted backup roundtrip, wrong password, tamper and weak password
+ok 1 - Encrypted backup roundtrip, wrong password, tamper and weak password
+  ---
+  duration_ms: 498.135942
+  type: 'test'
+  ...
+# Subtest: Static cache does not intercept navigation, config, private data, auth or unknown versions
+ok 2 - Static cache does not intercept navigation, config, private data, auth or unknown versions
+  ---
+  duration_ms: 2.113512
+  type: 'test'
+  ...
+# Subtest: Fullscreen control removed; single gesture and versioned worker retained
+ok 3 - Fullscreen control removed; single gesture and versioned worker retained
+  ---
+  duration_ms: 0.942672
+  type: 'test'
+  ...
+# Subtest: Cleanup rejects missing or wrong job token without data access
+ok 4 - Cleanup rejects missing or wrong job token without data access
+  ---
+  duration_ms: 48.365734
+  type: 'test'
+  ...
+# Subtest: Expired objects are removed through storage before metadata
+ok 5 - Expired objects are removed through storage before metadata
+  ---
+  duration_ms: 6.822982
+  type: 'test'
+  ...
+# Subtest: Storage failure keeps metadata and stops cleanup
+ok 6 - Storage failure keeps metadata and stops cleanup
+  ---
+  duration_ms: 4.906856
+  type: 'test'
+  ...
+# Subtest: Metadata failure returns retryable error and does not delete messages
+ok 7 - Metadata failure returns retryable error and does not delete messages
+  ---
+  duration_ms: 3.706953
+  type: 'test'
+  ...
+# Subtest: Both intended devices decrypt; excluded device cannot
+ok 8 - Both intended devices decrypt; excluded device cannot
+  ---
+  duration_ms: 8.474085
+  type: 'test'
+  ...
+# Subtest: Tampering, wrong sender, room, epoch and signature fail closed
+ok 9 - Tampering, wrong sender, room, epoch and signature fail closed
+  ---
+  duration_ms: 3.474744
+  type: 'test'
+  ...
+# Subtest: Signed membership rejects forged and older rosters
+ok 10 - Signed membership rejects forged and older rosters
+  ---
+  duration_ms: 15.95281
+  type: 'test'
+  ...
+# Subtest: Removed member does not receive a future message key
+ok 11 - Removed member does not receive a future message key
+  ---
+  duration_ms: 2.802565
+  type: 'test'
+  ...
+# Subtest: Binary media round trip and corruption rejection
+ok 12 - Binary media round trip and corruption rejection
+  ---
+  duration_ms: 1.504506
+  type: 'test'
+  ...
+# Subtest: JSONB key reordering preserves signature verification
+ok 13 - JSONB key reordering preserves signature verification
+  ---
+  duration_ms: 4.015505
+  type: 'test'
+  ...
+# Subtest: Roster signature also survives database JSON key ordering
+ok 14 - Roster signature also survives database JSON key ordering
+  ---
+  duration_ms: 1.053953
+  type: 'test'
+  ...
+# Subtest: Direct message keeps circle member outside the recipient set
+ok 15 - Direct message keeps circle member outside the recipient set
+  ---
+  duration_ms: 8.897936
+  type: 'test'
+  ...
+# Subtest: All PWA variants request fullscreen with standalone fallback
+ok 16 - All PWA variants request fullscreen with standalone fallback
+  ---
+  duration_ms: 2.506717
+  type: 'test'
+  ...
+# Subtest: Fullscreen fallback is included without replacing the owner key bundle
+ok 17 - Fullscreen fallback is included without replacing the owner key bundle
+  ---
+  duration_ms: 0.506713
+  type: 'test'
+  ...
+# Subtest: Install control opens supplied native prompt, hides after installed, and shows honest fallback
+ok 18 - Install control opens supplied native prompt, hides after installed, and shows honest fallback
+  ---
+  duration_ms: 801.24421
+  type: 'test'
+  ...
+# Subtest: SQL compiles; owner-only bootstrap and invites; single-use and membership gates
+ok 19 - SQL compiles; owner-only bootstrap and invites; single-use and membership gates
+  ---
+  duration_ms: 3143.294596
+  type: 'test'
+  ...
+# Subtest: Storage reservation and message identity guards reject malformed writes
+ok 20 - Storage reservation and message identity guards reject malformed writes
+  ---
+  duration_ms: 2248.583548
+  type: 'test'
+  ...
+# Subtest: Missing envelope fields cannot bypass context guard
+ok 21 - Missing envelope fields cannot bypass context guard
+  ---
+  duration_ms: 2421.476046
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10364.415866
