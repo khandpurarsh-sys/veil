@@ -14,7 +14,7 @@
  const button=document.createElement('button');button.id='installVeil';button.type='button';button.textContent='Install Veil';
  button.style.cssText='font-size:11px;padding:8px 12px;border:1px solid #777;border-radius:6px;background:#111;color:#eee;cursor:pointer';
  const guide=document.createElement('p');guide.id='installGuide';guide.hidden=true;guide.style.cssText='font-size:12px;color:#aaa;line-height:1.6;margin:12px 0';guide.setAttribute('role','status');
- const header=document.querySelector('header');(header||document.body).append(button);(document.querySelector('main')||document.body).prepend(guide);
+ const header=document.querySelector('header');(document.querySelector('#installSlot')||header||document.body).append(button);(document.querySelector('#installSlot')||document.body).append(guide);
  const sync=()=>{button.hidden=installed();};sync();
  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;button.hidden=false;});
  window.addEventListener('appinstalled',()=>{deferred=null;button.hidden=true;guide.hidden=false;guide.textContent='Veil installed. Open the silver Veil icon from your home screen.';});
