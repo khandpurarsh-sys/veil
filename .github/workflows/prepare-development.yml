@@ -12,7 +12,7 @@ jobs:
         run: |
           cp app/config.json /tmp/veil-live-public-config.json
           mkdir -p /tmp/veil-source
-          tar -xzf 2-veil-smooth-join.tar.gz -C /tmp/veil-source
+          tar -xzf 3-veil-scroll-pending.tar.gz -C /tmp/veil-source
           for item in src tests supabase app package.json package-lock.json build.mjs README.md .gitignore; do
             cp -R "/tmp/veil-source/$item" .
           done
