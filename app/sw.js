@@ -1,5 +1,4 @@
-// Deliberately caches no messages, media, keys, config or app code.
-// No offline delivery claim; updates must be fetched from the network.
-self.addEventListener('install',()=>self.skipWaiting());
-self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
-self.addEventListener('fetch',()=>{});
+const CACHE="veil-static-7834172cf93f",ASSETS=["./veil.js?v=b28c335beec8","./fullscreen.js?v=f93993da997d","./simple.css?v=a850cc8ef8f6","./media-worker.js?v=2a8e8e2f5d86","./icon-silver-192.png","./icon-silver-512.png","./icon-gold-192.png","./icon-gold-512.png"];const ALLOWED=new Set(ASSETS.map(p=>new URL(p,self.registration.scope).href));
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.filter(p=>!p.includes('media-worker.js')))).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('veil-static-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||!ALLOWED.has(e.request.url))return;e.respondWith(caches.open(CACHE).then(async c=>{const cached=await c.match(e.request);if(cached)return cached;const response=await fetch(e.request);if(response.ok)await c.put(e.request,response.clone());return response;}));});

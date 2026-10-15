@@ -2,3 +2,9 @@
 #contactPicker button{display:block;width:100%;font-size:15px}#groupPeople label{display:flex;gap:14px;align-items:center;min-height:48px}#groupPeople input{width:18px}#groupComposer{border-left:1px solid #333;padding-left:16px;margin-top:20px}.bubble button{display:block;font-size:13px}#contactPicker p,#groupList p{margin:28px 0}
 
 .brand{display:flex;gap:10px;align-items:center}.brand img{object-fit:contain}
+/* Gesture feedback stays on compositor-friendly opacity and transforms. */
+button,summary,label{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:active,summary:active{opacity:.65;transform:scale(.985)}
+@media(prefers-reduced-motion:no-preference){button{transition:transform 90ms ease-out,opacity 90ms ease-out}section{animation:arrive 140ms ease-out}}
+@media(prefers-reduced-motion:reduce){button,section{transition:none;animation:none}}
+.messages{overscroll-behavior:contain}.media-object{content-visibility:auto}

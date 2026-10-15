@@ -1,0 +1,2 @@
+import * as crypt from './crypto.js';
+self.onmessage=async({data})=>{try{await crypt.ready();if(data.operation==='encrypt'){const encrypted=crypt.encryptFile(new Uint8Array(data.bytes));self.postMessage({id:data.id,value:encrypted},[encrypted.cipher.buffer]);}else if(data.operation==='decrypt'){const plain=crypt.decryptFile(new Uint8Array(data.bytes),data.key,data.nonce);self.postMessage({id:data.id,value:plain},[plain.buffer]);}else throw Error('Invalid media operation');}catch(e){self.postMessage({id:data.id,error:e.message||'Media encryption failed'});}};
