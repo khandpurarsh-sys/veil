@@ -12,7 +12,7 @@ jobs:
         run: |
           cp app/config.json /tmp/veil-live-public-config.json
           mkdir -p /tmp/veil-source
-          tar -xzf 1-veil-install-button.tar.gz -C /tmp/veil-source
+          tar -xzf 1-veil-performance.tar.gz -C /tmp/veil-source
           for item in src tests supabase app package.json package-lock.json build.mjs README.md .gitignore; do
             cp -R "/tmp/veil-source/$item" .
           done
@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - run: npm ci && npm test && npm run build
+      - run: npm ci && npx playwright install --with-deps chromium && npm test && npm run build
       - name: Save tested source
         run: |
           git config user.name 'github-actions[bot]'
